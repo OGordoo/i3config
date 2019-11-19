@@ -8,6 +8,7 @@
 # i3 config file (v4)
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
+
 set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
@@ -172,20 +173,20 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 
-set $bg-color 	         #000000
-set $inactive-bg-color   #595959
-set $text-color          #45c5ff
-set $inactive-text-color #c8edfa
+set $bg-color 	         #2b0027
+set $inactive-bg-color   #757575
+set $text-color          #00d192
+set $inactive-text-color #89d6bf
 
 set $urgent-bg-color     #E53935
 set $white               #000000
 
 # window colors
-#                       border              background         text                 indicator
-client.focused          $bg-color           $bg-color          $text-color          #000000
-client.unfocused        $iancative-bg-color $inactive-bg-color $inactive-text-color #000000
-client.focused_inactive $iancative-bg-color $inactive-bg-color $inactive-text-color #000000
-client.urgent           $urgent-bg-color    $urgent-bg-color   $white               #000000
+#                       border              background         text                   indicator
+client.focused          $bg-color           $bg-color          $text-color            $bg-color
+client.unfocused        $iancative-bg-color $inactive-bg-color $inactive-text-color   $inactive-bg-color
+client.focused_inactive $iancative-bg-color $inactive-bg-color $inactive-text-color   $inactive-bg-color
+client.urgent           $urgent-bg-color    $urgent-bg-color   $white                 $urgent-bg-color
 
 
 # Start i3bar to display a workspace bar (plus the system information i3status
@@ -193,13 +194,13 @@ client.urgent           $urgent-bg-color    $urgent-bg-color   $white           
 bar {
         colors{
                 background #383838
-
+                focused_workspace       #CECECE         $bg-color               $text-color
+                active_workspace        #333333         $inactive-bg-color      $inactive-text-color
+                inactive_workspace      #CECECE         #3d3d3d                 $inactive-text-color
         }
-
 
         status_command i3blocks -c ~/.config/i3/i3blocks.conf
         #status_command i3status
-
 }
 
 
@@ -226,6 +227,9 @@ exec gnome-terminal
 exec gnome-terminal
 
 
+#HDMI connection
+exec xrandr --output HDMI-1 --off --output DP-1 --off --output eDP-1 --primary --mode 1366x768 --pos 2560x560 --rotate normal --output HDMI-2 --mode 2560x1440 --pos 0x0 --rotate normal
+
 #Set Background
 exec_always feh --bg-scale /home/afonso/Imagens/wallpaper.jpg
 
@@ -233,7 +237,7 @@ exec_always feh --bg-scale /home/afonso/Imagens/wallpaper.jpg
 bindsym Print exec scrot '%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f ~/Imagens/Screenshots'
 bindsym $mod+Print exec gnome-screenshot -i
 
-
 exec pulseaudio --start
 
 exec_always compton
+exec_always nm-applet
