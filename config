@@ -173,9 +173,9 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 
-set $bg-color 	         #2b0027
+set $bg-color 	         #0F2537
 set $inactive-bg-color   #757575
-set $text-color          #00d192
+set $text-color          #B0E8F6
 set $inactive-text-color #89d6bf
 
 set $urgent-bg-color     #E53935
@@ -205,18 +205,24 @@ bar {
 
 
 # Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -q sset Master 3%+ #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer -q sset Master 3%- #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id amixer -q -D pulse sset Master toggle # mute sound
+
+# Music Buttons
+bindsym XF86AudioPlay exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
+bindsym XF86AudioStop exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop"
+bindsym XF86AudioPrev exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
+bindsym XF86AudioNext exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
 
 # Sreen brightness controls
-bindsym XF86MonBrightnessUp exec light -A 5 # increase screen brightness
-bindsym XF86MonBrightnessDown exec light -U 5 # decrease screen brightness
+bindsym F12 exec ~/Templates/bright + # increase screen brightness
+bindsym F11 exec ~/Templates/bright - # decrease screen brightness
 
 # Touchpad controls
 bindsym XF86TouchpadToggle exec /some/path/toggletouchpad.sh # toggle touchpad
 #Lock session
-bindsym $mod+shift+x exec ~/Modelos/lock.sh
+bindsym $mod+shift+x exec ~/Templates/lock.sh
 
 #Open applications at login
 exec firefox
@@ -228,7 +234,7 @@ exec gnome-terminal
 
 
 #HDMI connection
-exec xrandr --output HDMI-1 --off --output DP-1 --off --output eDP-1 --primary --mode 1366x768 --pos 2560x560 --rotate normal --output HDMI-2 --mode 2560x1440 --pos 0x0 --rotate normal
+exec ~/.screenlayout/work.sh
 
 #Set Background
 exec_always feh --bg-scale /home/afonso/Imagens/wallpaper.jpg
