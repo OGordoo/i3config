@@ -36,7 +36,7 @@ bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec rofi -show run -theme tungcena.rasi
+bindsym $mod+d exec rofi -show run -theme ~/Templates/tungcena.rasi
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -95,12 +95,12 @@ bindsym $mod+a focus parent
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1 "
-set $ws2 "2 "
-set $ws3 "3 "
-set $ws4 "4 "
+set $ws1 "1 🌐"
+set $ws2 "2 >_"
+set $ws3 "3 💻"
+set $ws4 "4 💬"
 set $ws5 "5"
-set $ws6 "6 "
+set $ws6 "6 🎵"
 set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
@@ -189,6 +189,8 @@ client.focused_inactive $iancative-bg-color $inactive-bg-color $inactive-text-co
 client.urgent           $urgent-bg-color    $urgent-bg-color   $white                 $urgent-bg-color
 
 
+
+
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
@@ -210,28 +212,33 @@ bindsym XF86AudioLowerVolume exec --no-startup-id amixer -q sset Master 3%- #dec
 bindsym XF86AudioMute exec --no-startup-id amixer -q -D pulse sset Master toggle # mute sound
 
 # Music Buttons
-bindsym XF86AudioPlay exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
-bindsym XF86AudioStop exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop"
-bindsym XF86AudioPrev exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
-bindsym XF86AudioNext exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
+bindsym $mod+KP_Begin exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause"
+bindsym $mod+KP_Up exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop"
+bindsym $mod+KP_Left exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous"
+bindsym $mod+KP_Right exec "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next"
 
 # Sreen brightness controls
-bindsym F12 exec ~/Templates/bright + # increase screen brightness
-bindsym F11 exec ~/Templates/bright - # decrease screen brightness
+bindsym XF86MonBrightnessUp exec ~/Templates/bright 10 # increase screen brightness
+bindsym XF86MonBrightnessDown exec ~/Templates/bright -10 # decrease screen brightness
 
 # Touchpad controls
 bindsym XF86TouchpadToggle exec /some/path/toggletouchpad.sh # toggle touchpad
 #Lock session
 bindsym $mod+shift+x exec ~/Templates/lock.sh
 
+
 #Open applications at login
 exec firefox
 exec code
 exec discord
 
-exec gnome-terminal
-exec gnome-terminal
+# Open terminal in the all dir
+bindsym $mod+shift+a exec gnome-terminal --working-directory=/home/afonso/Work/all --profile=all
 
+bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
+bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
+
+exec gnome-terminal --working-directory=/home/afonso/Work/all --profile=all
 
 #HDMI connection
 exec ~/.screenlayout/work.sh
@@ -240,10 +247,11 @@ exec ~/.screenlayout/work.sh
 exec_always feh --bg-scale /home/afonso/Imagens/wallpaper.jpg
 
 #Take ScreenShots
-bindsym Print exec scrot '%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f ~/Imagens/Screenshots'
-bindsym $mod+Print exec gnome-screenshot -i
+# bindsym Print exec scrot '%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f ~/Imagens/Screenshots'
+bindsym Print exec flameshot gui
 
 exec pulseaudio --start
 
 exec_always compton
 exec_always nm-applet
+

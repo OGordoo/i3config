@@ -1,0 +1,8 @@
+#!/bin/bash
+
+backlight=/sys/class/backlight/amdgpu_bl1/brightness
+
+currentbrightness=(`cat $backlight`)
+
+echo -e "0.463 + 0.39 * $currentbrightness" | bc -l | cut -d "." -f 1
+
