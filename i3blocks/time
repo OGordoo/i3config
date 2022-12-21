@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [[ "$BLOCK_BUTTON" -eq 1 ]]
+then
+        echo -ne "👌"
+        sh -c gnome-calendar
+fi
+
+echo -ne $(date '+%Y-%m-%d %H:%M:%S')
